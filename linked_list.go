@@ -105,7 +105,7 @@ func (ll *LinkedList[T]) InsertAt(idx uint, v T) error {
 	}
 
 	if idx == 0 {
-		new := &LlNode[T]{
+		new := &llNode[T]{
 			prev: nil,
 			next: ll.head,
 			val:  v,
@@ -119,7 +119,7 @@ func (ll *LinkedList[T]) InsertAt(idx uint, v T) error {
 	}
 
 	if idx == ll.length-1 {
-		new := &LlNode[T]{
+		new := &llNode[T]{
 			prev: ll.tail,
 			next: nil,
 			val:  v,
@@ -149,7 +149,7 @@ func (ll *LinkedList[T]) InsertAt(idx uint, v T) error {
 		}
 	}
 
-	new := &LlNode[T]{
+	new := &llNode[T]{
 		prev: curr.prev,
 		next: curr,
 		val:  v,

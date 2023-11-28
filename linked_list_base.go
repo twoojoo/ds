@@ -1,27 +1,15 @@
 package ds
 
-type LlNode[T any] struct {
-	prev *LlNode[T]
-	next *LlNode[T]
+type llNode[T any] struct {
+	prev *llNode[T]
+	next *llNode[T]
 	val  T
-}
-
-func (n *LlNode[T]) Value() T {
-	return n.val
-}
-
-func (n *LlNode[T]) Next() *LlNode[T] {
-	return n.next
-}
-
-func (n *LlNode[T]) Prev() *LlNode[T] {
-	return n.prev
 }
 
 type linkedListBase[T any] struct {
 	length uint
-	head   *LlNode[T]
-	tail   *LlNode[T]
+	head   *llNode[T]
+	tail   *llNode[T]
 }
 
 func newLinkedListBase[T any]() *linkedListBase[T] {
@@ -48,7 +36,7 @@ func newLinkedListBaseFromSlice[T any](s []T) *linkedListBase[T] {
 
 func (ll *linkedListBase[T]) push(v T) {
 	if ll.length == 0 {
-		new := &LlNode[T]{
+		new := &llNode[T]{
 			prev: nil,
 			next: nil,
 			val:  v,
@@ -62,7 +50,7 @@ func (ll *linkedListBase[T]) push(v T) {
 		return
 	}
 
-	new := &LlNode[T]{
+	new := &llNode[T]{
 		prev: ll.tail,
 		val:  v,
 	}
@@ -96,7 +84,7 @@ func (ll *linkedListBase[T]) pop() (T, bool) {
 }
 
 func (ll *linkedListBase[T]) unshift(v T) {
-	new := &LlNode[T]{
+	new := &llNode[T]{
 		prev: ll.head,
 		val:  v,
 	}
