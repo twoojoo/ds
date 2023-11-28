@@ -1,7 +1,5 @@
 package ds
 
-import "fmt"
-
 type Node[K comparable, V any] struct {
 	Data  V
 	edges map[K]int
@@ -99,7 +97,6 @@ func (g *Graph[K, V]) dfs(visited map[K]bool, path *[]K, nodeID K, matcher func(
 	}
 
 	*path = append((*path), nodeID)
-	fmt.Println(path)
 
 	for edgeNodeID := range curr.edges {
 		if ID, found := g.dfs(visited, path, edgeNodeID, matcher); found {
@@ -138,8 +135,10 @@ func (g *Graph[K, V]) fcc(visited map[K]bool, connComp []map[K]struct{}, currIdx
 	})
 }
 
-func (g *Graph[K, V]) BreadthFirstSearch(startNodeID K, matcher func(n *Node[K, V]) bool) (K, bool) {
+func (g *Graph[K, V]) BreadthFirstSearch(startNodeID K, matcher func(n *Node[K, V]) bool) (K, []K, bool) {
 	q := NewQueue(startNodeID)
+	visited := map[K]bool{}
+	path := []K{}
 
 	var currID K
 	for !q.IsEmpty() {
@@ -149,17 +148,22 @@ func (g *Graph[K, V]) BreadthFirstSearch(startNodeID K, matcher func(n *Node[K, 
 			break
 		}
 
+		path = append(path, currID)
+		visited[currID] = true
+
 		curr := g.nodes[currID]
 
 		if matcher(curr) {
-			return currID, true
+			return currID, path, true
 		}
 
 		for k := range curr.edges {
-			q.Enqueue(k)
+			if !visited[k] {
+				q.Enqueue(k)
+			}
 		}
 	}
 
 	var zero K
-	return zero, false
+	return zero, path, false
 }

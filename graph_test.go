@@ -17,16 +17,18 @@ func TestGraphBFS(t *testing.T) {
 	g.AddEdge(1, 3)
 	g.AddEdge(2, 1)
 	g.AddEdge(3, 5)
+	g.AddEdge(3, 1)
 	g.AddEdge(4, 3)
 	g.AddEdge(2, 4)
 	g.AddEdge(5, 2)
+	g.AddEdge(5, 1)
 
 	matcher := func(n *Node[int, int]) bool {
 		return n.Data == 40
 	}
 
-	if i, ok := g.BreadthFirstSearch(1, matcher); !ok || i != 4 {
-		t.Fatal(ok, i)
+	if i, p, ok := g.BreadthFirstSearch(1, matcher); !ok || i != 4 || !slices.Equal(p, []int{1, 3, 5, 2, 4}) {
+		t.Fatal(ok, i, p)
 	}
 }
 
