@@ -243,5 +243,4 @@ func TestAppend(t *testing.T) {
 	if ll.Append([]int{1, 2, 3}); ll.length != 3 || ll.tail.val != 3 || ll.head.val != 1 {
 		t.Fatal(ll.length, ll.tail.val, ll.head.val)
 	}
-
 }
