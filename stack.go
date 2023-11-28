@@ -1,29 +1,29 @@
 package ds
 
 type Stack[T any] struct {
-	*LinkedList[T]
+	*linkedListBase[T]
 }
 
-func NewStack[T any]() *Stack[T] {
-	return &Stack[T]{NewLinkedList[T]()}
-}
-
-func NewStackFromSlice[T any](s []T) *Stack[T] {
-	return &Stack[T]{NewLinkedListFromSlice[T](s)}
+func NewStack[T any](vals ...T) *Stack[T] {
+	return &Stack[T]{newLinkedListBaseFromSlice[T](vals)}
 }
 
 func (q *Stack[T]) Add(v T) {
-	q.Push(v)
+	q.push(v)
 }
 
 func (q *Stack[T]) Remove() (T, bool) {
-	return q.Pop()
+	return q.pop()
 }
 
 func (q *Stack[T]) Size() uint {
-	return q.Length()
+	return q.length
 }
 
 func (q *Stack[T]) IsEmpty() bool {
-	return q.Length() == 0
+	return q.length == 0
+}
+
+func (q *Stack[T]) Flush() {
+	q.flush()
 }

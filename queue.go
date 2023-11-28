@@ -1,29 +1,29 @@
 package ds
 
 type Queue[T any] struct {
-	*LinkedList[T]
+	*linkedListBase[T]
 }
 
-func NewQueue[T any]() *Queue[T] {
-	return &Queue[T]{NewLinkedList[T]()}
-}
-
-func NewQueueFromSlice[T any](s []T) *Queue[T] {
-	return &Queue[T]{NewLinkedListFromSlice[T](s)}
+func NewQueue[T any](vals ...T) *Queue[T] {
+	return &Queue[T]{newLinkedListBaseFromSlice[T](vals)}
 }
 
 func (q *Queue[T]) Enqueue(v T) {
-	q.Push(v)
+	q.push(v)
 }
 
 func (q *Queue[T]) Dequeue() (T, bool) {
-	return q.Shift()
+	return q.shift()
 }
 
 func (q *Queue[T]) Size() uint {
-	return q.Length()
+	return q.length
 }
 
 func (q *Queue[T]) IsEmpty() bool {
-	return q.Length() == 0
+	return q.length == 0
+}
+
+func (q *Queue[T]) Flush() {
+	q.flush()
 }
