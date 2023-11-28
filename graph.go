@@ -15,6 +15,20 @@ func NewGraph[K comparable, V any]() *Graph[K, V] {
 	}
 }
 
+func (g *Graph[K, V]) CountNodes() uint {
+	return uint(len(g.nodes))
+}
+
+func (g *Graph[K, V]) CountEdges() uint {
+	var count uint
+
+	for k := range g.nodes {
+		count += uint(len(g.nodes[k].edges))
+	}
+
+	return count
+}
+
 func (g *Graph[K, V]) AddNode(ID K, data ...V) *Graph[K, V] {
 	if _, ok := g.nodes[ID]; !ok {
 		if len(data) > 0 {
