@@ -8,6 +8,10 @@ func NewQueue[T any]() *Queue[T] {
 	return &Queue[T]{NewLinkedList[T]()}
 }
 
+func NewQueueFromSlice[T any](s []T) *Queue[T] {
+	return &Queue[T]{NewLinkedListFromSlice[T](s)}
+}
+
 func (q *Queue[T]) Enqueue(v T) {
 	q.Push(v)
 }

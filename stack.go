@@ -8,6 +8,10 @@ func NewStack[T any]() *Stack[T] {
 	return &Stack[T]{NewLinkedList[T]()}
 }
 
+func NewStackFromSlice[T any](s []T) *Stack[T] {
+	return &Stack[T]{NewLinkedListFromSlice[T](s)}
+}
+
 func (q *Stack[T]) Add(v T) {
 	q.Push(v)
 }
