@@ -137,3 +137,29 @@ func (g *Graph[K, V]) fcc(visited map[K]bool, connComp []map[K]struct{}, currIdx
 		return false
 	})
 }
+
+func (g *Graph[K, V]) BreafthFirstSearch(startNodeID K, matcher func(n *Node[K, V]) bool) (K, bool) {
+	q := NewQueue(startNodeID)
+
+	var currID K
+	for !q.IsEmpty() {
+		var ok bool
+		currID, ok = q.Dequeue()
+		if !ok {
+			break
+		}
+
+		curr := g.nodes[currID]
+
+		if matcher(curr) {
+			return currID, true
+		}
+
+		for k := range curr.edges {
+			q.Enqueue(k)
+		}
+	}
+
+	var zero K
+	return zero, false
+}
