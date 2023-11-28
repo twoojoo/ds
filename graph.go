@@ -138,7 +138,7 @@ func (g *Graph[K, V]) fcc(visited map[K]bool, connComp []map[K]struct{}, currIdx
 	})
 }
 
-func (g *Graph[K, V]) BreafthFirstSearch(startNodeID K, matcher func(n *Node[K, V]) bool) (K, bool) {
+func (g *Graph[K, V]) BreadthFirstSearch(startNodeID K, matcher func(n *Node[K, V]) bool) (K, bool) {
 	q := NewQueue(startNodeID)
 
 	var currID K
