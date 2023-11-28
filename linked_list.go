@@ -2,16 +2,28 @@ package ds
 
 import "fmt"
 
-type llnode[T any] struct {
-	prev *llnode[T]
-	next *llnode[T]
+type LlNode[T any] struct {
+	prev *LlNode[T]
+	next *LlNode[T]
 	val  T
+}
+
+func (n *LlNode[T]) Value() T {
+	return n.val
+}
+
+func (n *LlNode[T]) Next() *LlNode[T] {
+	return n.next
+}
+
+func (n *LlNode[T]) Prev() *LlNode[T] {
+	return n.prev
 }
 
 type LinkedList[T any] struct {
 	length uint
-	head   *llnode[T]
-	tail   *llnode[T]
+	head   *LlNode[T]
+	tail   *LlNode[T]
 }
 
 func NewLinkedList[T any]() *LinkedList[T] {
@@ -58,7 +70,7 @@ func (ll LinkedList[T]) Tail() (T, bool) {
 
 func (ll *LinkedList[T]) Push(v T) {
 	if ll.length == 0 {
-		new := &llnode[T]{
+		new := &LlNode[T]{
 			prev: nil,
 			next: nil,
 			val:  v,
@@ -72,7 +84,7 @@ func (ll *LinkedList[T]) Push(v T) {
 		return
 	}
 
-	new := &llnode[T]{
+	new := &LlNode[T]{
 		prev: ll.tail,
 		val:  v,
 	}
@@ -112,7 +124,7 @@ func (ll *LinkedList[T]) Pop() (T, bool) {
 }
 
 func (ll *LinkedList[T]) Unshift(v T) {
-	new := &llnode[T]{
+	new := &LlNode[T]{
 		prev: ll.head,
 		val:  v,
 	}
@@ -190,7 +202,7 @@ func (ll *LinkedList[T]) InsertAt(idx uint, v T) error {
 	}
 
 	if idx == 0 {
-		new := &llnode[T]{
+		new := &LlNode[T]{
 			prev: nil,
 			next: ll.head,
 			val:  v,
@@ -204,7 +216,7 @@ func (ll *LinkedList[T]) InsertAt(idx uint, v T) error {
 	}
 
 	if idx == ll.length-1 {
-		new := &llnode[T]{
+		new := &LlNode[T]{
 			prev: ll.tail,
 			next: nil,
 			val:  v,
@@ -234,7 +246,7 @@ func (ll *LinkedList[T]) InsertAt(idx uint, v T) error {
 		}
 	}
 
-	new := &llnode[T]{
+	new := &LlNode[T]{
 		prev: curr.prev,
 		next: curr,
 		val:  v,
