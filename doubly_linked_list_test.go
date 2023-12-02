@@ -5,8 +5,8 @@ import (
 	"testing"
 )
 
-func TestHead(t *testing.T) {
-	ll := NewLinkedList[int]()
+func TestDLLHead(t *testing.T) {
+	ll := NewDoublyLinkedList[int]()
 	ll.Push(8)
 	ll.Push(1)
 	ll.Push(4)
@@ -15,41 +15,41 @@ func TestHead(t *testing.T) {
 		t.Fatal(ok, r)
 	}
 
-	ll1 := NewLinkedList[int]()
+	ll1 := NewDoublyLinkedList[int]()
 	ll1.Push(8)
 
 	if r, ok := ll1.Head(); !ok || r != 8 {
 		t.Fatal(ok, r)
 	}
 
-	ll2 := NewLinkedList[int]()
+	ll2 := NewDoublyLinkedList[int]()
 	if _, ok := ll2.Head(); ok {
 		t.Fatal()
 	}
 }
 
-func TestTail(t *testing.T) {
-	ll := NewLinkedList[int](8, 1, 4)
+func TestDLLTail(t *testing.T) {
+	ll := NewDoublyLinkedList[int](8, 1, 4)
 
 	if r, ok := ll.Tail(); !ok || r != 4 {
 		t.Fatal(ok, r)
 	}
 
-	ll1 := NewLinkedList[int]()
+	ll1 := NewDoublyLinkedList[int]()
 	ll1.Push(8)
 
 	if r, ok := ll1.Tail(); !ok || r != 8 {
 		t.Fatal(ok, r)
 	}
 
-	ll2 := NewLinkedList[int]()
+	ll2 := NewDoublyLinkedList[int]()
 	if _, ok := ll2.Tail(); ok {
 		t.Fatal()
 	}
 }
 
-func TestPush(t *testing.T) {
-	ll := NewLinkedList[int](8, 1, 4, 2, 7)
+func TestDLLPush(t *testing.T) {
+	ll := NewDoublyLinkedList[int](8, 1, 4, 2, 7)
 
 	if ll.head.val != 8 {
 		t.Fail()
@@ -64,8 +64,8 @@ func TestPush(t *testing.T) {
 	}
 }
 
-func TestPop(t *testing.T) {
-	ll := NewLinkedList[int](8, 1, 4, 2, 7)
+func TestDLLPop(t *testing.T) {
+	ll := NewDoublyLinkedList[int](8, 1, 4, 2, 7)
 
 	if r, _ := ll.Pop(); ll.tail.val != 2 || r != 7 {
 		t.Fatal(ll.tail.val, r)
@@ -89,8 +89,8 @@ func TestPop(t *testing.T) {
 	}
 }
 
-func TestUnshift(t *testing.T) {
-	ll := NewLinkedList[int]()
+func TestDLLUnshift(t *testing.T) {
+	ll := NewDoublyLinkedList[int]()
 	ll.Unshift(8)
 	ll.Unshift(1)
 	ll.Unshift(4)
@@ -110,8 +110,8 @@ func TestUnshift(t *testing.T) {
 	}
 }
 
-func TestShift(t *testing.T) {
-	ll := NewLinkedList[int](8, 1, 4, 2, 7)
+func TestDLLShift(t *testing.T) {
+	ll := NewDoublyLinkedList[int](8, 1, 4, 2, 7)
 
 	if r, ok := ll.Shift(); !ok || ll.head.val != 1 || r != 8 {
 		t.Fatal(ok, ll.head.val, r)
@@ -135,8 +135,8 @@ func TestShift(t *testing.T) {
 	}
 }
 
-func TestValueAt(t *testing.T) {
-	ll := NewLinkedList[int](8, 1, 4, 2, 7)
+func TestDLLValueAt(t *testing.T) {
+	ll := NewDoublyLinkedList[int](8, 1, 4, 2, 7)
 
 	if r, e := ll.ValueAt(2); e != nil || r != 4 {
 		t.Fatal(e, r)
@@ -163,8 +163,8 @@ func TestValueAt(t *testing.T) {
 	}
 }
 
-func TestInsertAt(t *testing.T) {
-	ll := NewLinkedList[int](8, 1, 4, 2, 7)
+func TestDLLInsertAt(t *testing.T) {
+	ll := NewDoublyLinkedList[int](8, 1, 4, 2, 7)
 
 	if e := ll.InsertAt(1, 10); e != nil || ll.length != 6 {
 		t.Fatal(e, ll.length)
@@ -183,8 +183,8 @@ func TestInsertAt(t *testing.T) {
 	}
 }
 
-func TestFind(t *testing.T) {
-	ll := NewLinkedList[int](8, 1, 4, 2, 7)
+func TestDLLFind(t *testing.T) {
+	ll := NewDoublyLinkedList[int](8, 1, 4, 2, 7)
 
 	if v, i, ok := ll.Find(func(v int) bool { return v == 2 }); v != 2 || i != 3 || !ok {
 		t.Fatal(v, i, ok)
@@ -203,36 +203,36 @@ func TestFind(t *testing.T) {
 	}
 }
 
-func TestToSlice(t *testing.T) {
-	ll := NewLinkedList[int](8, 1, 4, 2, 7)
+func TestDLLToSlice(t *testing.T) {
+	ll := NewDoublyLinkedList[int](8, 1, 4, 2, 7)
 
 	if s := ll.ToSlice(); len(s) != 5 || !slices.Equal(s, []int{8, 1, 4, 2, 7}) {
 		t.Fatal(len(s))
 	}
 
-	ll1 := NewLinkedList[int]()
+	ll1 := NewDoublyLinkedList[int]()
 	if s := ll1.ToSlice(); len(s) != 0 || !slices.Equal(s, []int{}) {
 		t.Fatal(len(s))
 	}
 }
 
-func TestTraverse(t *testing.T) {
-	ll := NewLinkedList[int](8, 1, 4, 2, 7)
+func TestDLLTraverse(t *testing.T) {
+	ll := NewDoublyLinkedList[int](8, 1, 4, 2, 7)
 
 	var sum int
 	if ll.Traverse(func(v int) { sum += v }); sum != 8+1+4+2+7 {
 		t.Fatal(sum)
 	}
 
-	ll1 := NewLinkedList[int]()
+	ll1 := NewDoublyLinkedList[int]()
 	sum = 0
 	if ll1.Traverse(func(v int) { sum += v }); sum != 0 {
 		t.Fatal(sum)
 	}
 }
 
-func TestAppend(t *testing.T) {
-	ll := NewLinkedList[int](8, 1, 4, 2, 7)
+func TestDLLAppend(t *testing.T) {
+	ll := NewDoublyLinkedList[int](8, 1, 4, 2, 7)
 
 	if ll.Append([]int{1, 2, 3}); ll.length != 8 || ll.tail.val != 3 {
 		t.Fatal(ll.length, ll.tail.val)

@@ -1,11 +1,11 @@
 package ds
 
 type Stack[T any] struct {
-	*linkedListBase[T]
+	*singlyLinkedListBase[T]
 }
 
 func NewStack[T any](vals ...T) *Stack[T] {
-	return &Stack[T]{newLinkedListBaseFromSlice[T](vals)}
+	return &Stack[T]{newSinglyLinkedListBaseFromSlice[T](vals)}
 }
 
 func (q *Stack[T]) Add(v T) {

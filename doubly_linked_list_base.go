@@ -1,27 +1,27 @@
 package ds
 
-type llNode[T any] struct {
-	prev *llNode[T]
-	next *llNode[T]
+type dllNode[T any] struct {
+	prev *dllNode[T]
+	next *dllNode[T]
 	val  T
 }
 
-type linkedListBase[T any] struct {
+type doublyLinkedListBase[T any] struct {
 	length uint
-	head   *llNode[T]
-	tail   *llNode[T]
+	head   *dllNode[T]
+	tail   *dllNode[T]
 }
 
-func newLinkedListBase[T any]() *linkedListBase[T] {
-	return &linkedListBase[T]{
+func newDoublyLinkedListBase[T any]() *doublyLinkedListBase[T] {
+	return &doublyLinkedListBase[T]{
 		length: 0,
 		head:   nil,
 		tail:   nil,
 	}
 }
 
-func newLinkedListBaseFromSlice[T any](s []T) *linkedListBase[T] {
-	ll := &linkedListBase[T]{
+func newDoublyLinkedListBaseFromSlice[T any](s []T) *doublyLinkedListBase[T] {
+	ll := &doublyLinkedListBase[T]{
 		length: 0,
 		head:   nil,
 		tail:   nil,
@@ -34,9 +34,9 @@ func newLinkedListBaseFromSlice[T any](s []T) *linkedListBase[T] {
 	return ll
 }
 
-func (ll *linkedListBase[T]) push(v T) {
+func (ll *doublyLinkedListBase[T]) push(v T) {
 	if ll.length == 0 {
-		new := &llNode[T]{
+		new := &dllNode[T]{
 			prev: nil,
 			next: nil,
 			val:  v,
@@ -50,7 +50,7 @@ func (ll *linkedListBase[T]) push(v T) {
 		return
 	}
 
-	new := &llNode[T]{
+	new := &dllNode[T]{
 		prev: ll.tail,
 		val:  v,
 	}
@@ -62,7 +62,7 @@ func (ll *linkedListBase[T]) push(v T) {
 	ll.length++
 }
 
-func (ll *linkedListBase[T]) pop() (T, bool) {
+func (ll *doublyLinkedListBase[T]) pop() (T, bool) {
 	if ll.length == 0 {
 		var zero T
 		return zero, false
@@ -83,8 +83,8 @@ func (ll *linkedListBase[T]) pop() (T, bool) {
 	return result, true
 }
 
-func (ll *linkedListBase[T]) unshift(v T) {
-	new := &llNode[T]{
+func (ll *doublyLinkedListBase[T]) unshift(v T) {
+	new := &dllNode[T]{
 		prev: ll.head,
 		val:  v,
 	}
@@ -100,7 +100,7 @@ func (ll *linkedListBase[T]) unshift(v T) {
 	ll.length++
 }
 
-func (ll *linkedListBase[T]) shift() (T, bool) {
+func (ll *doublyLinkedListBase[T]) shift() (T, bool) {
 	if ll.length == 0 {
 		var zero T
 		return zero, false
@@ -121,8 +121,16 @@ func (ll *linkedListBase[T]) shift() (T, bool) {
 	return result, true
 }
 
-func (ll *linkedListBase[T]) flush() {
+func (ll *doublyLinkedListBase[T]) flush() {
 	ll.tail = nil
 	ll.head = nil
 	ll.length = 0
+}
+
+func (ll *doublyLinkedListBase[T]) traverse(action func(v T)) {
+	curr := ll.head
+	for i := uint(0); i < ll.length; i++ {
+		action(curr.val)
+		curr = curr.next
+	}
 }

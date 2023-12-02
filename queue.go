@@ -1,11 +1,11 @@
 package ds
 
 type Queue[T any] struct {
-	*linkedListBase[T]
+	*singlyLinkedListBase[T]
 }
 
 func NewQueue[T any](vals ...T) *Queue[T] {
-	return &Queue[T]{newLinkedListBaseFromSlice[T](vals)}
+	return &Queue[T]{newSinglyLinkedListBaseFromSlice[T](vals)}
 }
 
 func (q *Queue[T]) Enqueue(v T) {

@@ -4,19 +4,19 @@ import (
 	"fmt"
 )
 
-type LinkedList[T any] struct {
-	*linkedListBase[T]
+type DoublyLinkedList[T any] struct {
+	*doublyLinkedListBase[T]
 }
 
-func NewLinkedList[T any](vals ...T) *LinkedList[T] {
-	return &LinkedList[T]{newLinkedListBaseFromSlice[T](vals)}
+func NewDoublyLinkedList[T any](vals ...T) *DoublyLinkedList[T] {
+	return &DoublyLinkedList[T]{newDoublyLinkedListBaseFromSlice[T](vals)}
 }
 
-func (ll LinkedList[T]) Size() uint {
+func (ll DoublyLinkedList[T]) Size() uint {
 	return ll.length
 }
 
-func (ll LinkedList[T]) Head() (T, bool) {
+func (ll DoublyLinkedList[T]) Head() (T, bool) {
 	if ll.length == 0 {
 		var zero T
 		return zero, false
@@ -25,7 +25,7 @@ func (ll LinkedList[T]) Head() (T, bool) {
 	return ll.head.val, true
 }
 
-func (ll LinkedList[T]) Tail() (T, bool) {
+func (ll DoublyLinkedList[T]) Tail() (T, bool) {
 	if ll.length == 0 {
 		var zero T
 		return zero, false
@@ -34,37 +34,37 @@ func (ll LinkedList[T]) Tail() (T, bool) {
 	return ll.tail.val, true
 }
 
-func (ll LinkedList[T]) Push(v T) {
+func (ll DoublyLinkedList[T]) Push(v T) {
 	ll.push(v)
 }
 
-func (ll LinkedList[T]) Unshift(v T) {
+func (ll DoublyLinkedList[T]) Unshift(v T) {
 	ll.unshift(v)
 }
 
-func (ll LinkedList[T]) Pop() (T, bool) {
+func (ll DoublyLinkedList[T]) Pop() (T, bool) {
 	return ll.pop()
 }
 
-func (ll LinkedList[T]) Shift() (T, bool) {
+func (ll DoublyLinkedList[T]) Shift() (T, bool) {
 	return ll.shift()
 }
 
-func (ll *LinkedList[T]) Append(s []T) {
+func (ll *DoublyLinkedList[T]) Append(s []T) {
 	for i := range s {
 		ll.push(s[i])
 	}
 }
 
-func (ll LinkedList[T]) Flush() {
+func (ll DoublyLinkedList[T]) Flush() {
 	ll.flush()
 }
 
-func (ll LinkedList[T]) Traverse(matcher func(v T)) {
+func (ll DoublyLinkedList[T]) Traverse(matcher func(v T)) {
 	ll.traverse(matcher)
 }
 
-func (ll *LinkedList[T]) ValueAt(idx uint) (T, error) {
+func (ll *DoublyLinkedList[T]) ValueAt(idx uint) (T, error) {
 	if idx >= ll.length {
 		var zero T
 		return zero, fmt.Errorf("cannot iterate beyond list end")
@@ -95,7 +95,7 @@ func (ll *LinkedList[T]) ValueAt(idx uint) (T, error) {
 	return curr.val, nil
 }
 
-func (ll *LinkedList[T]) InsertAt(idx uint, v T) error {
+func (ll *DoublyLinkedList[T]) InsertAt(idx uint, v T) error {
 	if idx >= ll.length {
 		return fmt.Errorf("cannot insert beyond list end")
 	}
@@ -105,7 +105,7 @@ func (ll *LinkedList[T]) InsertAt(idx uint, v T) error {
 	}
 
 	if idx == 0 {
-		new := &llNode[T]{
+		new := &dllNode[T]{
 			prev: nil,
 			next: ll.head,
 			val:  v,
@@ -119,7 +119,7 @@ func (ll *LinkedList[T]) InsertAt(idx uint, v T) error {
 	}
 
 	if idx == ll.length-1 {
-		new := &llNode[T]{
+		new := &dllNode[T]{
 			prev: ll.tail,
 			next: nil,
 			val:  v,
@@ -149,7 +149,7 @@ func (ll *LinkedList[T]) InsertAt(idx uint, v T) error {
 		}
 	}
 
-	new := &llNode[T]{
+	new := &dllNode[T]{
 		prev: curr.prev,
 		next: curr,
 		val:  v,
@@ -163,7 +163,7 @@ func (ll *LinkedList[T]) InsertAt(idx uint, v T) error {
 	return nil
 }
 
-func (ll *LinkedList[T]) Find(matcher func(v T) bool) (T, uint, bool) {
+func (ll *DoublyLinkedList[T]) Find(matcher func(v T) bool) (T, uint, bool) {
 	curr := ll.head
 	for i := uint(0); i < ll.length; i++ {
 		if matcher(curr.val) {
@@ -177,15 +177,9 @@ func (ll *LinkedList[T]) Find(matcher func(v T) bool) (T, uint, bool) {
 	return zero, 0, false
 }
 
-func (ll *linkedListBase[T]) traverse(action func(v T)) {
-	curr := ll.head
-	for i := uint(0); i < ll.length; i++ {
-		action(curr.val)
-		curr = curr.next
-	}
-}
+// func (ll *LinkedList[T])
 
-func (ll *LinkedList[T]) ToSlice() []T {
+func (ll *DoublyLinkedList[T]) ToSlice() []T {
 	result := make([]T, ll.length)
 
 	curr := ll.head
@@ -198,14 +192,14 @@ func (ll *LinkedList[T]) ToSlice() []T {
 }
 
 // ToSlice + Flush
-func (ll *LinkedList[T]) Close() []T {
+func (ll *DoublyLinkedList[T]) Close() []T {
 	s := ll.ToSlice()
 	ll.Flush()
 	return s
 }
 
 // Traverse + Flush
-func (ll *LinkedList[T]) Consume(action func(v T)) {
+func (ll *DoublyLinkedList[T]) Consume(action func(v T)) {
 	ll.Traverse(action)
 	ll.Flush()
 }
