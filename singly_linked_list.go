@@ -156,6 +156,10 @@ func (ll *SinglyLinkedList[T]) ToSlice() []T {
 	return result
 }
 
+func (ll *SinglyLinkedList[T]) Reverse() {
+	ll.reverse()
+}
+
 // ToSlice + Flush
 func (ll *SinglyLinkedList[T]) Close() []T {
 	s := ll.ToSlice()

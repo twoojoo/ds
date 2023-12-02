@@ -147,3 +147,19 @@ func (ll *singlyLinkedListBase[T]) traverse(action func(v T)) {
 		curr = curr.next
 	}
 }
+
+func (ll *singlyLinkedListBase[T]) reverse() {
+	var prev *sllNode[T] = nil
+	curr := ll.head
+
+	for curr != nil {
+		next := curr.next
+		curr.next = prev
+		prev = curr
+		curr = next
+	}
+
+	tempTail := ll.tail
+	ll.tail = ll.head
+	ll.head = tempTail
+}
