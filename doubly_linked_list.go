@@ -177,8 +177,6 @@ func (ll *DoublyLinkedList[T]) Find(matcher func(v T) bool) (T, uint, bool) {
 	return zero, 0, false
 }
 
-// func (ll *LinkedList[T])
-
 func (ll *DoublyLinkedList[T]) ToSlice() []T {
 	result := make([]T, ll.length)
 
