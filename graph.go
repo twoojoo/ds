@@ -86,6 +86,10 @@ func (g *Graph[K, V]) RemoveEdge(nodeID1 K, nodeID2 K) *Graph[K, V] {
 	return g
 }
 
+func (g *Graph[K, V]) DFS(startNodeID K, matcher func(n *Node[K, V]) bool) (K, []K, bool) {
+	return g.DepthFirstSearch(startNodeID, matcher)
+}
+
 func (g *Graph[K, V]) DepthFirstSearch(startNodeID K, matcher func(n *Node[K, V]) bool) (K, []K, bool) {
 	visited := make(map[K]bool, len(g.nodes))
 	path := make([]K, 0, len(g.nodes))
@@ -180,4 +184,41 @@ func (g *Graph[K, V]) BreadthFirstSearch(startNodeID K, matcher func(n *Node[K, 
 
 	var zero K
 	return zero, path, false
+}
+
+// alias for BreadthFirstSearch
+func (g *Graph[K, V]) BFS(startNodeID K, matcher func(n *Node[K, V]) bool) (K, []K, bool) {
+	return g.BreadthFirstSearch(startNodeID, matcher)
+}
+
+func (g *Graph[K, V]) ShortestPathBFS(startNodeID K, endNodeID K) ([]K, bool) {
+	q := NewQueue(startNodeID)
+	visited := map[K]bool{}
+
+	paths := map[K][]K{}
+
+	for !q.IsEmpty() {
+		currID, ok := q.Dequeue()
+		if !ok {
+			break
+		}
+
+		visited[currID] = true
+
+		curr := g.nodes[currID]
+
+		if currID == endNodeID {
+			finalPath := append(paths[currID], currID)
+			return finalPath, true
+		}
+
+		for k := range curr.edges {
+			if !visited[k] {
+				paths[k] = append(paths[currID], currID)
+				q.Enqueue(k)
+			}
+		}
+	}
+
+	return []K{}, false
 }

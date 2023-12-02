@@ -1,7 +1,8 @@
 package ds
 
 import (
-	"fmt"
+	// "fmt"
+	// "math/rand"
 	"slices"
 	"testing"
 )
@@ -211,13 +212,95 @@ func TestGraphFindConnectedComponentes(t *testing.T) {
 	g.AddEdge(1, 2)
 	g.AddEdge(2, 3)
 	g.AddEdge(3, 1)
-	// g.AddEdge(3, 4)
 
 	g.AddEdge(4, 5)
 	g.AddEdge(5, 4)
 
 	g.AddEdge(5, 6)
 
-	cc := g.FindConnectedComponents(1)
-	fmt.Println(cc)
+	g.FindConnectedComponents(1)
 }
+
+// func TestMaze(t *testing.T) {
+// 	g := NewGraph[int, string]()
+
+// 	cols := 30
+// 	rows := 10
+// 	for i := 0; i < cols*rows; i++ {
+// 		cell := " "
+// 		rnd := rand.Intn(5)
+// 		if rnd == 2 {
+// 			cell = "#"
+// 		}
+
+// 		if i == cols*rows-1 {
+// 			cell = "E"
+// 		}
+
+// 		if i == 0 {
+// 			cell = "S"
+// 		}
+
+// 		g.AddNode(i, cell)
+// 	}
+
+// 	for i := 0; i < cols*rows; i++ {
+// 		if g.nodes[i].Data == "#" {
+// 			continue
+// 		}
+
+// 		if (i+1)%cols != 1 {
+// 			if n, ok := g.nodes[i-1]; ok && n.Data != "#" {
+// 				g.AddEdge(i, i-1)
+// 			}
+// 		}
+
+// 		if (i+1)%cols != 0 {
+// 			if n, ok := g.nodes[i+1]; ok && n.Data != "#" {
+// 				g.AddEdge(i, i+1)
+// 			}
+// 		}
+
+// 		if n, ok := g.nodes[i-cols]; ok && n.Data != "#" {
+// 			g.AddEdge(i, i-cols)
+// 		}
+
+// 		if n, ok := g.nodes[i+cols]; ok && n.Data != "#" {
+// 			g.AddEdge(i, i+cols)
+// 		}
+// 	}
+
+// 	for i := 0; i < cols*rows; i++ {
+// 		if i%cols == 0 {
+// 			fmt.Print("\n")
+// 		}
+
+// 		fmt.Print(g.nodes[i].Data)
+// 	}
+
+// 	fmt.Print("\n")
+
+// 	p, ok := g.ShortestPathBFS(0, cols*rows-1)
+// 	fmt.Println(p)
+
+// 	if ok {
+// 		for i := 0; i < cols*rows; i++ {
+// 			if i%cols == 0 {
+// 				fmt.Print("\n")
+// 			}
+
+// 			if g.nodes[i].Data == "S" {
+// 				fmt.Print(g.nodes[i].Data)
+// 			} else if g.nodes[i].Data == "E" {
+// 				fmt.Print(g.nodes[i].Data)
+// 			} else if slices.Contains(p, i) {
+// 				fmt.Print("+")
+// 			} else {
+// 				fmt.Print(g.nodes[i].Data)
+// 			}
+// 		}
+
+// 		fmt.Print("\n")
+// 	}
+
+// }
