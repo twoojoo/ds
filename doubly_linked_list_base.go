@@ -134,3 +134,17 @@ func (ll *doublyLinkedListBase[T]) traverse(action func(v T)) {
 		curr = curr.next
 	}
 }
+
+func (ll *doublyLinkedListBase[T]) reverse() {
+	curr := ll.head
+	for curr != nil {
+		next := curr.next
+		curr.next = curr.prev
+		curr.prev = next
+		curr = next
+	}
+
+	tempTail := ll.tail
+	ll.tail = ll.head
+	ll.head = tempTail
+}

@@ -244,3 +244,20 @@ func TestDLLAppend(t *testing.T) {
 		t.Fatal(ll.length, ll.tail.val, ll.head.val)
 	}
 }
+
+func TestDLLReverse(t *testing.T) {
+	ll := NewDoublyLinkedList[int](8, 1, 4, 2, 7)
+	ll.Reverse()
+
+	if s := ll.ToSlice(); !slices.Equal(s, []int{7, 2, 4, 1, 8}) {
+		t.Fatal(s)
+	}
+
+	if h, ok := ll.Head(); !ok || h != 7 {
+		t.Fatal(ok, h)
+	}
+
+	if ta, ok := ll.Tail(); !ok || ta != 8 {
+		t.Fatal(ok, t)
+	}
+}

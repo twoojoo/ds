@@ -203,3 +203,7 @@ func (ll *DoublyLinkedList[T]) Consume(action func(v T)) {
 	ll.Traverse(action)
 	ll.Flush()
 }
+
+func (ll *DoublyLinkedList[T]) Reverse() {
+	ll.reverse()
+}
