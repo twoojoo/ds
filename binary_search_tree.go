@@ -131,11 +131,11 @@ func remove[V any](node *BinaryTreeNode[V], prevNode *BinaryTreeNode[V], prevFro
 
 	var ok bool
 	if rightNode, ok = node.Right(); ok {
-		smallestOnRight, stepsToSmallestOnRight = findSmallest(rightNode, 0)
+		smallestOnRight, stepsToSmallestOnRight = FindSmallest(rightNode, 0)
 	}
 
 	if leftNode, ok = node.Left(); ok {
-		greatestOnLeft, stepsToGreatestOnLeft = findGreater(leftNode, 0)
+		greatestOnLeft, stepsToGreatestOnLeft = FindGreater(leftNode, 0)
 	}
 
 	if stepsToGreatestOnLeft < stepsToSmallestOnRight {
@@ -157,19 +157,19 @@ func remove[V any](node *BinaryTreeNode[V], prevNode *BinaryTreeNode[V], prevFro
 	}
 }
 
-func findGreater[V any](root *BinaryTreeNode[V], steps float64) (*BinaryTreeNode[V], float64) {
+func FindGreater[V any](root *BinaryTreeNode[V], steps float64) (*BinaryTreeNode[V], float64) {
 	if right, ok := root.Right(); ok {
 		steps++
-		return findGreater(right, steps)
+		return FindGreater(right, steps)
 	}
 
 	return root, steps
 }
 
-func findSmallest[V any](root *BinaryTreeNode[V], steps float64) (*BinaryTreeNode[V], float64) {
+func FindSmallest[V any](root *BinaryTreeNode[V], steps float64) (*BinaryTreeNode[V], float64) {
 	if left, ok := root.Left(); ok {
 		steps++
-		return findSmallest(left, steps)
+		return FindSmallest(left, steps)
 	}
 
 	return root, steps
