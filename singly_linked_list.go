@@ -142,8 +142,6 @@ func (ll *SinglyLinkedList[T]) Find(matcher func(v T) bool) (T, uint, bool) {
 	return zero, 0, false
 }
 
-// func (ll *LinkedList[T])
-
 func (ll *SinglyLinkedList[T]) ToSlice() []T {
 	result := make([]T, ll.length)
 
