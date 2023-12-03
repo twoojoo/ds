@@ -99,3 +99,51 @@ func TestBSTInsert(t *testing.T) {
 		t.Fatal(ok, v)
 	}
 }
+
+func TestBSTRemove(t *testing.T) {
+	bst := NewBinarySearchTreeFromBinaryTree(
+		NewBinaryTreeNode[int](10,
+			NewBinaryTreeNode(12,
+				NewBinaryTreeNode(25, nil, nil),
+				nil,
+			),
+			NewBinaryTreeNode(7,
+				NewBinaryTreeNode(9, nil, nil),
+				NewBinaryTreeNode(2, nil, nil),
+			),
+		), func(a, b int) int {
+			if a > b {
+				return 1
+			}
+
+			if b > a {
+				return -1
+			}
+
+			return 0
+		},
+	)
+
+	bst.Insert(11)
+	bst.Insert(33)
+	bst.Insert(1)
+	bst.Insert(19)
+
+	bst.Remove(12)
+
+	if _, ok := bst.Find(12); ok {
+		t.Fatal(ok)
+	}
+
+	if _, ok := bst.Find(25); !ok {
+		t.Fatal(ok)
+	}
+
+	if _, ok := bst.Find(33); !ok {
+		t.Fatal(ok)
+	}
+
+	if _, ok := bst.Find(11); !ok {
+		t.Fatal(ok)
+	}
+}

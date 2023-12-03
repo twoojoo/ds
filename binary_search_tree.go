@@ -1,5 +1,10 @@
 package ds
 
+import (
+	"fmt"
+	"math"
+)
+
 type BinarySearchTree[V any] struct {
 	comparer func(a V, b V) int
 	root     *BinaryTreeNode[V]
@@ -19,6 +24,7 @@ func NewBinarySearchTreeFromBinaryTree[V any](root *BinaryTreeNode[V], comparer 
 	}
 }
 
+// O(h)
 func (bst *BinarySearchTree[V]) Find(val V) (V, bool) {
 	return find(bst.root, val, bst.comparer)
 }
@@ -50,6 +56,7 @@ func find[V any](root *BinaryTreeNode[V], val V, comparer func(a V, b V) int) (V
 	}
 }
 
+// O(h)
 func (bst *BinarySearchTree[V]) Insert(val V) {
 	insert(bst.root, val, bst.comparer)
 }
@@ -76,4 +83,97 @@ func insert[V any](root *BinaryTreeNode[V], val V, comparer func(a V, b V) int) 
 			val: val,
 		}
 	}
+}
+
+func (bst *BinarySearchTree[V]) Remove(val V) {
+	var prevNode *BinaryTreeNode[V] = nil
+	var prevFromRight bool
+
+	currNode := bst.root
+	for {
+		comp := bst.comparer(val, currNode.Value())
+
+		if comp == 0 {
+			remove(currNode, prevNode, prevFromRight)
+			return
+		}
+
+		if comp > 0 {
+			if right, ok := currNode.Right(); ok {
+				prevFromRight = true
+				prevNode = currNode
+				currNode = right
+			}
+		} else {
+			if left, ok := currNode.Left(); ok {
+				prevFromRight = false
+				prevNode = currNode
+				currNode = left
+			}
+		}
+	}
+}
+
+func remove[V any](node *BinaryTreeNode[V], prevNode *BinaryTreeNode[V], prevFromRight bool) {
+	if node.IsLeaf() {
+		if prevFromRight {
+			prevNode.right = nil
+		} else {
+			prevNode.left = nil
+		}
+	}
+
+	stepsToSmallestOnRight := math.Inf(1)
+	stepsToGreatestOnLeft := math.Inf(1)
+	var smallestOnRight *BinaryTreeNode[V] = nil
+	var greatestOnLeft *BinaryTreeNode[V] = nil
+	var rightNode *BinaryTreeNode[V] = nil
+	var leftNode *BinaryTreeNode[V] = nil
+
+	fmt.Println("nodeval:", node.Value())
+
+	var ok bool
+	if rightNode, ok = node.Right(); ok {
+		smallestOnRight, stepsToSmallestOnRight = findSmallest(rightNode, 0)
+	}
+
+	if leftNode, ok = node.Left(); ok {
+		greatestOnLeft, stepsToGreatestOnLeft = findGreater(leftNode, 0)
+	}
+
+	if stepsToGreatestOnLeft < stepsToSmallestOnRight {
+		if prevFromRight {
+			prevNode.right = greatestOnLeft
+			greatestOnLeft.right = rightNode
+		} else {
+			prevNode.left = greatestOnLeft
+			greatestOnLeft.right = rightNode
+		}
+	} else {
+		if prevFromRight {
+			prevNode.right = smallestOnRight
+			smallestOnRight.left = leftNode
+		} else {
+			prevNode.left = smallestOnRight
+			smallestOnRight.left = leftNode
+		}
+	}
+}
+
+func findGreater[V any](root *BinaryTreeNode[V], steps float64) (*BinaryTreeNode[V], float64) {
+	if right, ok := root.Right(); ok {
+		steps++
+		return findGreater(right, steps)
+	}
+
+	return root, steps
+}
+
+func findSmallest[V any](root *BinaryTreeNode[V], steps float64) (*BinaryTreeNode[V], float64) {
+	if left, ok := root.Left(); ok {
+		steps++
+		return findSmallest(left, steps)
+	}
+
+	return root, steps
 }
