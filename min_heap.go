@@ -11,14 +11,12 @@ package ds
 type MinHeap[V any] struct {
 	comparer func(a V, b V) int
 	data     []V
-	// length   int
 }
 
 func NewMinHeap[V any](comparer func(a V, b V) int) *MinHeap[V] {
 	return &MinHeap[V]{
 		comparer: comparer,
 		data:     []V{},
-		// length: 0,
 	}
 }
 
