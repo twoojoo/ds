@@ -138,6 +138,7 @@ func remove[V any](node *BinaryTreeNode[V], prevNode *BinaryTreeNode[V], prevFro
 		greatestOnLeft, stepsToGreatestOnLeft = FindGreater(leftNode, 0)
 	}
 
+	// choose the best strategy to keep the tree well balanced
 	if stepsToGreatestOnLeft < stepsToSmallestOnRight {
 		if prevFromRight {
 			prevNode.right = greatestOnLeft
