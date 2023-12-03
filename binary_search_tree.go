@@ -70,7 +70,7 @@ func insert[V any](root *BinaryTreeNode[V], val V, comparer func(a V, b V) int) 
 	}
 
 	if left, ok := root.Left(); ok {
-		find(left, val, comparer)
+		insert(left, val, comparer)
 	} else {
 		root.left = &BinaryTreeNode[V]{
 			val: val,
