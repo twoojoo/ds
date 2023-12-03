@@ -55,4 +55,11 @@ func TestBinaryTreeFind(t *testing.T) {
 	if v, ok := bst.Find(val); !ok || v != val {
 		t.Fatal(ok, v)
 	}
+
+	bst.Insert(33)
+
+	val = 33
+	if v, ok := bst.Find(val); !ok || v != val {
+		t.Fatal(ok, v)
+	}
 }

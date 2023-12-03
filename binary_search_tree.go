@@ -49,3 +49,31 @@ func find[V any](root *BinaryTreeNode[V], val V, comparer func(a V, b V) int) (V
 		return zero, false
 	}
 }
+
+func (bst *BinarySearchTree[V]) Insert(val V) {
+	insert(bst.root, val, bst.comparer)
+}
+
+func insert[V any](root *BinaryTreeNode[V], val V, comparer func(a V, b V) int) {
+	comp := comparer(val, root.Value())
+
+	if comp > 0 {
+		if right, ok := root.Right(); ok {
+			insert(right, val, comparer)
+		} else {
+			root.right = &BinaryTreeNode[V]{
+				val: val,
+			}
+		}
+
+		return
+	}
+
+	if left, ok := root.Left(); ok {
+		find(left, val, comparer)
+	} else {
+		root.left = &BinaryTreeNode[V]{
+			val: val,
+		}
+	}
+}
