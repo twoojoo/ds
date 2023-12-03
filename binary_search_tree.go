@@ -1,7 +1,6 @@
 package ds
 
 import (
-	"fmt"
 	"math"
 )
 
@@ -129,8 +128,6 @@ func remove[V any](node *BinaryTreeNode[V], prevNode *BinaryTreeNode[V], prevFro
 	var greatestOnLeft *BinaryTreeNode[V] = nil
 	var rightNode *BinaryTreeNode[V] = nil
 	var leftNode *BinaryTreeNode[V] = nil
-
-	fmt.Println("nodeval:", node.Value())
 
 	var ok bool
 	if rightNode, ok = node.Right(); ok {

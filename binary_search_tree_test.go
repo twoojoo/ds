@@ -139,6 +139,8 @@ func TestBSTRemove(t *testing.T) {
 		t.Fatal(ok)
 	}
 
+	bst.Remove(25)
+
 	if _, ok := bst.Find(33); !ok {
 		t.Fatal(ok)
 	}
