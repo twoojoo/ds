@@ -67,13 +67,13 @@ func (mh *MinHeap[V]) heapifyDown(currIdx int) {
 		return
 	}
 
+	//????
+	// if rightChildIdx >= len(mh.data) {
+	// 	mh.data = append(mh.data, currVal)
+	// 	return
+	// }
+
 	currVal := mh.data[currIdx]
-
-	if rightChildIdx == len(mh.data) {
-		mh.data = append(mh.data, currVal)
-		return
-	}
-
 	rightVal := mh.data[rightChildIdx]
 	leftVal := mh.data[leftChildIdx]
 
