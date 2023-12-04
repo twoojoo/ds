@@ -1,7 +1,6 @@
 package ds
 
 import (
-	"fmt"
 	"testing"
 )
 
@@ -25,7 +24,9 @@ func TestMinHepPush(t *testing.T) {
 	mh.Push(12)
 	mh.Push(9)
 
-	fmt.Println(mh.getArray())
+	if arr := mh.getArray(); arr[0] != 112 {
+		t.Fatal(arr)
+	}
 }
 
 func TestMinHepPop(t *testing.T) {
@@ -47,6 +48,7 @@ func TestMinHepPop(t *testing.T) {
 	mh.Push(10)
 	mh.Push(12)
 	mh.Push(9)
+
 	mh.Pop()
 	mh.Pop()
 	mh.Pop()
@@ -54,5 +56,7 @@ func TestMinHepPop(t *testing.T) {
 	mh.Pop()
 	mh.Pop()
 
-	fmt.Println(mh.getArray())
+	if arr := mh.getArray(); len(arr) != 0 {
+		t.Fatal(arr)
+	}
 }

@@ -54,6 +54,15 @@ func (mh *MinHeap[V]) heapifyUp(currIdx int) {
 	}
 }
 
+func (mh *MinHeap[V]) getValueAtIndex(idx int) (V, bool) {
+	if idx >= len(mh.data) || idx < 0 {
+		var zero V
+		return zero, false
+	}
+
+	return mh.data[idx], true
+}
+
 func (mh *MinHeap[V]) heapifyDown(currIdx int) {
 	if currIdx >= len(mh.data) {
 		return
@@ -67,18 +76,13 @@ func (mh *MinHeap[V]) heapifyDown(currIdx int) {
 		return
 	}
 
-	//????
-	// if rightChildIdx >= len(mh.data) {
-	// 	mh.data = append(mh.data, currVal)
-	// 	return
-	// }
-
+	//get right val only if right node exists
+	rightVal, hasRightChild := mh.getValueAtIndex(rightChildIdx)
 	currVal := mh.data[currIdx]
-	rightVal := mh.data[rightChildIdx]
 	leftVal := mh.data[leftChildIdx]
 
 	//if right val is the smallest child, and curr are grater than him
-	if mh.comparer(leftVal, rightVal) > 0 && mh.comparer(currVal, rightVal) > 0 {
+	if hasRightChild && (mh.comparer(leftVal, rightVal) > 0 && mh.comparer(currVal, rightVal) > 0) {
 		//swap with smallest child
 		mh.data[currIdx] = rightVal
 		mh.data[rightChildIdx] = currVal
@@ -108,6 +112,7 @@ func (mh *MinHeap[V]) Pop() (V, bool) {
 	}
 
 	val := mh.data[0]
+
 	if len(mh.data) == 1 {
 		mh.data = []V{}
 		return val, true
@@ -115,7 +120,9 @@ func (mh *MinHeap[V]) Pop() (V, bool) {
 
 	//put last value in first position
 	mh.data[0] = mh.data[len(mh.data)-1]
-	mh.data = removeFromSlice(mh.data, len(mh.data)-1)
+
+	//and remove last element
+	mh.data = mh.data[:len(mh.data)-1]
 
 	// and bubble it down
 	mh.heapifyDown(0)
@@ -127,7 +134,7 @@ func (mh *MinHeap[V]) getArray() []V {
 	return mh.data
 }
 
-func removeFromSlice[V any](s []V, i int) []V {
-	s[i] = s[len(s)-1]
-	return s[:len(s)-1]
-}
+// func removeFromSlice[V any](s []V, i int) []V {
+// 	s[i] = s[len(s)-1]
+// 	return s[:len(s)-1]
+// }
