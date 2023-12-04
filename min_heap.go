@@ -133,8 +133,3 @@ func (mh *MinHeap[V]) Pop() (V, bool) {
 func (mh *MinHeap[V]) getArray() []V {
 	return mh.data
 }
-
-// func removeFromSlice[V any](s []V, i int) []V {
-// 	s[i] = s[len(s)-1]
-// 	return s[:len(s)-1]
-// }
